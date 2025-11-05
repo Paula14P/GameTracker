@@ -12,4 +12,4 @@ const GameSchema = new mongoose.Schema({
   fechaCreacion: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Game', GameSchema);
+module.exports = mongoose.model('Game', GameSchema); 
