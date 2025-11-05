@@ -1,25 +1,15 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
 
-const gamesRoutes = require('./src/routes/games');
-const reviewsRoutes = require('./src/routes/reviews');
-const errorHandler = require('./src/middlewares/errorHandler');
+const GameSchema = new mongoose.Schema({
+  titulo: { type: String, required: true },
+  genero: { type: String },
+  plataforma: { type: String },
+  añoLanzamiento: { type: Number },
+  desarrollador: { type: String },
+  imagenPortada: { type: String },
+  descripcion: { type: String },
+  completado: { type: Boolean, default: false },
+  fechaCreacion: { type: Date, default: Date.now }
+});
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-app.use('/api/juegos', gamesRoutes);
-app.use('/api/reseñas', reviewsRoutes);
-
-app.use(errorHandler);
-
-const PORT = process.env.PORT || 4000;
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(()=> {
-    console.log('Mongo conectado');
-    app.listen(PORT, ()=> console.log(`Server run en puerto ${PORT}`));
-  })
-  .catch(err => console.error(err));
+module.exports = mongoose.model('Game', GameSchema);
